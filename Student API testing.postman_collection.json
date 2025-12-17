@@ -1,0 +1,342 @@
+{
+	"info": {
+		"_postman_id": "169ab578-ca6d-45dc-b3e4-bf90994bc1d8",
+		"name": "Student API testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42373916",
+		"_collection_link": "https://bealiv-app.postman.co/workspace/Team-Workspace~1135a950-cb1c-4e54-8ef3-790b5ed89aa0/collection/42373916-169ab578-ca6d-45dc-b3e4-bf90994bc1d8?action=share&source=collection_link&creator=42373916"
+	},
+	"item": [
+		{
+			"name": "Create Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var status = pm.response.code;\r",
+							"var jsData = pm.response.json();\r",
+							"\r",
+							"if ( status == 201){ \r",
+							"    pm.test(\"test code is 201\", function () {\r",
+							"        pm.response.to.have.status(201);\r",
+							"    });\r",
+							"\r",
+							"}else if (status == 404){\r",
+							"    pm.test(\"Not found 404\");\r",
+							"} else if (status == 403){\r",
+							"    pm.test(\"permission Needed\");\r",
+							"} else {\r",
+							"    pm.test(\"Something Go Wrong!\");\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n\"first_name\": \"sample string 2\", \r\n\"middle_name\": \"sample string 3\", \r\n\"last_name\": \"sample string 4\", \r\n\"date_of_birth\": \"sample string 5\" \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base_Url}}/api/studentsDetails",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"api",
+						"studentsDetails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var status = pm.response.code;\r",
+							"var jsData = pm.response.json();\r",
+							"let responseLength = jsData.length;\r",
+							"if ( status == 200){ \r",
+							"    pm.test(\"test code is 200\", function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    })\r",
+							"}else if (status == 404){\r",
+							"    pm.test(\"Not found 404\");\r",
+							"} else if (status == 403){\r",
+							"    pm.test(\"permission Needed\");\r",
+							"} else {\r",
+							"    pm.test(\"Something Go Wrong!\");\r",
+							"}\r",
+							"\r",
+							"console.log(responseLength);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_Url}}/api/studentsDetails",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"api",
+						"studentsDetails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Specific Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsData = pm.response.json();\r",
+							"let status = pm.response.code;\r",
+							"if ( status == 200){ \r",
+							"    pm.test(\"Test code is 200\", function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    })\r",
+							"}else if (status == 404){\r",
+							"    pm.test(\"Not found 404\");\r",
+							"} else if (status == 403){\r",
+							"    pm.test(\"permission Needed\");\r",
+							"} else {\r",
+							"    pm.test(\"Something Go Wrong!\");\r",
+							"}\r",
+							"\r",
+							"\r",
+							"pm.environment.set(\"ID\",jsData.data.id);\r",
+							"pm.environment.set(\"firstName\",jsData.data.first_name);\r",
+							"pm.environment.set(\"middleName\",jsData.data.middle_name);\r",
+							"pm.environment.set(\"lastName\",jsData.data.last_name);\r",
+							"pm.environment.set(\"dateOfBirth\",jsData.data.date_of_birth);\r",
+							"\r",
+							"    pm.test(\"Id Validation\",function(){\r",
+							"        pm.expect(pm.environment.get(\"ID\")).to.eql(jsData.data.id);\r",
+							"    })\r",
+							"    pm.test(\"Firstname Validation\",function(){\r",
+							"        pm.expect(pm.environment.get(\"firstName\")).to.eql(jsData.data.first_name);\r",
+							"    })\r",
+							"     pm.test(\"Middle Name Validation\",function(){\r",
+							"        pm.expect(pm.environment.get(\"middleName\")).to.eql(jsData.data.middle_name);\r",
+							"    })\r",
+							"     pm.test(\"Lastname Validation\",function(){\r",
+							"        pm.expect(pm.environment.get(\"lastName\")).to.eql(jsData.data.last_name);\r",
+							"    })\r",
+							"     pm.test(\"Date of Birth Validation\",function(){\r",
+							"        pm.expect(pm.environment.get(\"dateOfBirth\")).to.eql(jsData.data.date_of_birth);\r",
+							"    })"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_Url}}/api/studentsDetails/10388897",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"api",
+						"studentsDetails",
+						"10388897"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create_Technical_Skills",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var status = pm.response.code;\r",
+							"if ( status == 200){ \r",
+							"    pm.test(\"test code is 200\", function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    })\r",
+							"}else if (status == 404){\r",
+							"    pm.test(\"Not found 404\");\r",
+							"} else if (status == 403){\r",
+							"    pm.test(\"permission Needed\");\r",
+							"} else {\r",
+							"    pm.test(\"Something Go Wrong!\");\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n\"id\": 1, \r\n\"language\": [ \r\n\"sample string 1\", \r\n\"sample string 2\" \r\n], \r\n\"yearexp\": \"sample string 2\", \r\n\"lastused\": \"sample string 3\", \r\n\"st_id\": 10388906\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base_Url}}/api/technicalskills",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"api",
+						"technicalskills"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Student Address",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsData = pm.response.json();\r",
+							"let status = pm.response.code;\r",
+							"if ( status == 200){ \r",
+							"    pm.test(\"Test code is 200\", function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    })\r",
+							"}else if (status == 404){\r",
+							"    pm.test(\"Not found 404\");\r",
+							"} else if (status == 403){\r",
+							"    pm.test(\"permission Needed\");\r",
+							"} else {\r",
+							"    pm.test(\"Something Go Wrong!\");\r",
+							"}\r",
+							"\r",
+							"pm.environment.set(\"Status\",jsData.status);\r",
+							"pm.environment.set(\"message\",jsData.msg);\r",
+							"\r",
+							"pm.test(\"Status Validation\",function(){\r",
+							"    pm.expect(pm.environment.get(\"Status\")).to.equal(jsData.status)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Message Validation\",function(){\r",
+							"    pm.expect(pm.environment.get(\"message\")).to.equal(jsData.msg)\r",
+							"})\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n\"Permanent_Address\": { \r\n\"House_Number\": \"sample string 1\",\r\n\"City\": \"sample string 2\",\r\n \"State\": \"sample string 3\", \r\n\"Country\": \"sample string 4\",\r\n\"PhoneNumber\": [ \r\n{ \r\n\"Std_Code\": \"sample string 1\",\r\n\"Home\": \"sample string 2\",\r\n \"Mobile\": \"sample string 3\" \r\n},\r\n{ \r\n\"Std_Code\": \"sample string 1\",\r\n\"Home\": \"sample string 2\", \r\n\"Mobile\": \"sample string 3\" \r\n} \r\n] \r\n},\r\n\"stId\": 10388906\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Base_Url}}/api/addresses",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"api",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Final Student Details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let status = pm.response.code;\r",
+							"if ( status == 200){ \r",
+							"    pm.test(\"Test code is 200\", function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    })\r",
+							"}else if (status == 404){\r",
+							"    pm.test(\"Not found 404\");\r",
+							"} else if (status == 403){\r",
+							"    pm.test(\"permission Needed\");\r",
+							"} else {\r",
+							"    pm.test(\"Something Go Wrong!\");\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Base_Url}}/api/FinalStudentDetails/10388906",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"path": [
+						"api",
+						"FinalStudentDetails",
+						"10388906"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
